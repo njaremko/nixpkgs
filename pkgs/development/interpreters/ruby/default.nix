@@ -24,7 +24,7 @@ let
     self = lib.makeOverridable (
       { stdenv, buildPackages, lib
       , fetchurl, fetchpatch, fetchFromSavannah, fetchFromGitHub
-      , useRailsExpress ? true
+      , useRailsExpress ? false
       , rubygemsSupport ? true
       , zlib, zlibSupport ? true
       , openssl, openssl_1_1, opensslSupport ? true
@@ -91,7 +91,7 @@ let
         enableParallelBuilding = true;
 
         patches =
-          (import ./patchsets.nix {
+          ops useRailsExpress (import ./patchsets.nix {
             inherit patchSet useRailsExpress ops fetchpatch;
             patchLevel = ver.patchLevel;
           }).${ver.majMinTiny}
